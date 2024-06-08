@@ -1,2 +1,2 @@
-# BB-SortItOut
-Sorting algorithm optimisation in C and Assembly.
+# Sort It Out
+Sorting algorithm optimisation in various programming languages.
