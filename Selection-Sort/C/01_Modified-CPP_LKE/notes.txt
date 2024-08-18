@@ -1,0 +1,11 @@
+No change to C++ Sort algorithm. Just had to change vector to array.
+
+The main function is substantially different. It gets the array input.
+
+I implemented a very simple dynamically growing array (copied from ChatGPT lol), by:
+1. Dynamically allocate memory to create array with some small initial size.
+   a. When dynamically allocating memory, check to see if it succeeded. If it returns a null pointer, then there is some fatal error e.g. the program is out of memory.
+2. Ask for an integer input in a loop.
+3. If the array is full, dynamically allocate more memory; then add the input to the array.
+
+I got input using scanf, then cleaned stdin up for further potential input.
