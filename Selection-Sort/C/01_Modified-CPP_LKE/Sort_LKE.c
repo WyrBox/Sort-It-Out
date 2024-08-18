@@ -1,6 +1,6 @@
-#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 /**
  * This function implements a naive selection sort algorithm,
@@ -37,7 +37,6 @@ int *Sort(int *list, size_t size) {
  * Simple driver for Sort: ask for a list, sort it, and print it.
  */
 int main() {
-    // Get input
     int *list = NULL;
     size_t max_size = 5;
     size_t size = 0;
@@ -47,35 +46,61 @@ int main() {
         return 1;
     }
 
-    int input;
-    printf("Type a list of whole numbers separated by spaces (enter a non-numerical character to end input): ");
-    while(scanf("%d", &input) > 0) {
-        if(size == max_size) {
-            max_size *= 2;
-            int *temp = realloc(list, max_size * sizeof(int));
-            if(temp == NULL) {
-                printf("Memory allocation failed\n");
-                free(list);
-                return 1;
+    char buffer[100];
+    int n;
+    // space for the overrun, initially an empty string
+    char overrun[2*sizeof(buffer)] = "";
+    printf("Type a list of whole numbers separated by spaces: ");
+    while(1) {
+        if(fgets(buffer, sizeof(buffer), stdin) == NULL) {
+            // fgets checks for EOF and errors including file not found/opened..
+            printf("fgets found EOF or error\n"); 
+            return 1; 
+        }
+        int end_of_input = (buffer[strlen(buffer) - 1] == '\n');
+
+        // concatenate buffer onto overrun - fixes issue of int being split
+        char *ptr = strcat(overrun, buffer);
+        while(sscanf(ptr, "%d", &n) == 1) {
+            char *space = strchr(ptr, ' ');
+            int last_int = (space == NULL);
+            // if at end of incomplete buffer, set overrun = ptr
+            if (last_int && !end_of_input) {
+                memmove(overrun, ptr, strlen(ptr) + 1);
             }
+            // otherwise can add this int to list, and reset overrun
             else {
-                list = temp;
+                if(size == max_size) {
+                    max_size *= 2;
+                    int *temp = realloc(list, max_size * sizeof(int));
+                    if(temp == NULL) {
+                        printf("Memory allocation failed\n");
+                        free(list);
+                        return 1;
+                    }
+                    else {
+                        list = temp;
+                    }
+                }
+
+                list[size++] = n;
+
+                overrun[0] = '\0';
+            }
+            // if not at end of buffer, move pointer to next int
+            if (!last_int) {
+                ptr = space + 1;
+            }
+            // otherwise done
+            else {
+                break;
             }
         }
-
-        list[size++] = input;
-        // at the end of every loop including the last one, size is 1 more than the last array index, which is correct
+        if(end_of_input) {
+            break;
+        }
     }
-    clearerr(stdin);
-    int c;
-    while(c = getchar() != '\n' && c != EOF);
 
-    // (aside: test input is working)
-    printf("Test: Enter another number\n");
-    scanf("%d", &input);
-    printf("%d\n", input);
-
-    // Sort and print list
     list = Sort(list, size);
     for(size_t i = 0; i < size; i++) {
         printf("%d ", list[i]);
