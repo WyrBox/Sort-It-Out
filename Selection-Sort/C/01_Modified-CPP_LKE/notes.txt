@@ -13,3 +13,9 @@ I implemented a very simple dynamically growing array:
 2. Get input.
 3. If the array is full, dynamically allocate more memory; then add the input to the array.
 4. Free the dynamically allocated memory when done.
+
+I subsequently removed the main function and wrote some Python code to call the C sorting function.
+
+$ python setup.py build_ext --inplace
+
+Next I still have to write a PDF report. I'll use Python to time it and make graphs.

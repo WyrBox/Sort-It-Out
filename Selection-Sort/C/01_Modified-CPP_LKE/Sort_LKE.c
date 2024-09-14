@@ -1,12 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 /**
  * This function implements a naive selection sort algorithm,
  * in ascending order. Some simple optimisations, if they can be called that. 
+ * Sort in-place. Returns time taken in list[size].
  */
 int *Sort(int *list, size_t size) {
+    clock_t begin = clock();
+    
     /// The number of elements that are already sorted, and the index of the first unsorted element.
     size_t sorted = 0;
 
@@ -29,6 +33,11 @@ int *Sort(int *list, size_t size) {
         }
         sorted++;
     }
+
+    // stop timing and return time spent after end of list
+    clock_t end = clock();
+    int time_spent = end-begin;
+    list[size] = time_spent;
 
     return list;
 }
@@ -114,7 +123,7 @@ int *get_input(int *list, size_t *size, size_t *max_size) {
 /**
  * Simple driver for Sort: initialise a dynamic array, get input, sort it, and print it.
  */
-int main() {
+/* int main() {
     int *list = NULL;
     size_t max_size = 5;
     size_t size = 0;
@@ -133,6 +142,8 @@ int main() {
     }
     printf("\n");
 
+    printf("Sort time: %d\n", list[size]);
+
     free(list);
     return 0;
-}
+} */
