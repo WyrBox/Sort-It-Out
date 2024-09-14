@@ -1,0 +1,9 @@
+main:
+I've learnt stream iterators are the idiomatic way to read to and print from lists. These require the header <iterator>. Printing uses std::copy from <algorithm>.
+
+Sort: 
+The selection sort algorithm groups a list in two parts. The sorted elements are placed at the front of the list. The least unsorted element is found and swapped into place at the end of the sorted portion. 
+There are some simple optimisations in this naive algorithm: 
+When there is only one unsorted element left, it is the biggest and is in the correct place. 
+When finding the minimum, compare starting from the 2nd element. 
+Don't swap if element is already in correct place.
