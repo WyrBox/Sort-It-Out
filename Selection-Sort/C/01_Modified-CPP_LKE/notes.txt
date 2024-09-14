@@ -1,0 +1,21 @@
+No change to C++ Sort algorithm. Just had to change vector to array.
+
+The main function is substantially different.
+
+I get input:
+1. Using fgets inside a loop that I break when finding a newline character, so I get a whole line of input even if the length of the line is longer than the buffer size I chose arbitrarily.
+2. Using sscanf to parse one integer from the input; moving the start point past the next space and then looping to parse each integer from the input.
+3. Fixed the potential for a single integer to be incorrectly split, e.g. "123" overrunning the buffer size so the buffer in the first loop ends with 1 and the buffer in the second loop starts with 23 - they need to be combined. Comments in code have details about how I actually coded this.
+
+I implemented a very simple dynamically growing array:
+1. Dynamically allocate memory to create array with some small initial size.
+   a. When dynamically allocating memory, it returns a null pointer if it fails. This indicates a fatal error e.g. the program is out of memory.
+2. Get input.
+3. If the array is full, dynamically allocate more memory; then add the input to the array.
+4. Free the dynamically allocated memory when done.
+
+I subsequently removed the main function and wrote some Python code to call the C sorting function.
+
+$ python setup.py build_ext --inplace
+
+Next I still have to write a PDF report. I'll use Python to time it and make graphs.
